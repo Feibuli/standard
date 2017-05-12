@@ -1,0 +1,390 @@
+<div id="directive-demo" layout="column" layout-align="center center">
+  <h1>指令</h1>
+  <p>指令包括 '内置指令' 和 '自定义指令'</p>
+  <p>一.内置指令</p>
+  <p><a href="http://www.runoob.com/angularjs/angularjs-reference.html"> 参考手册 </a></p>
+  <p>二.自定义指令</p>
+  <p>注册指令：</p>
+  <pre>
+    <code class="javascript">
+      (function () {
+      'use strict';
+      angular
+        .module('app.device')
+        .directive('wisDemo', wisDemoDirective);
+
+      function wisDemoDirective() {
+          return {
+              restrict:String,
+              priority:Number,
+              terminal:Boolean,
+              template:String or Template Function,
+              templateUrl:String or Template Function,
+              replace:Boolean or String,
+              transclude:Boolean,
+              scope:Boolean or Object,
+              controller:String or function(scope, element, attrs, transclude, otherInjectables) { ... },
+              controllerAs:String,
+              require:String,
+              link: function(scope, iElement, iAttrs) { ... },
+              compile:function(tElement, tAttrs, transclude) {
+                  return {
+                      pre: function(scope, iElement, iAttrs, controller) { ... },
+                      post: function(scope, iElement, iAttrs, controller) { ... }
+                  }
+                  return function postLink(...) { ... }
+                }
+        };
+      }
+    })();
+    </code>
+  </pre>
+  <p></p>
+  <p>1、restrict：String</p>
+  <p>restrict是申明标识符在模板中作为元素，属性，类，注释或组合，如何使用。有四个值：E、A、C、M</p>
+  <table class="denominate-file" cellpadding="0" cellspacing="0">
+    <tr>
+      <td>标签</td>
+      <td>注释</td>
+      <td>示例</td>
+    </tr>
+    <tr>
+      <td>E</td>
+      <td>指令作为标签</td>
+      <td>&lt;wis-demo&gt;&lt;/wis-demo&gt;</td>
+    </tr>
+    <tr>
+      <td>A</td>
+      <td>指令作为属性</td>
+      <td>&lt;div wis-demo=''&gt;&lt;/div&gt;</td>
+    </tr>
+    <tr>
+      <td>C</td>
+      <td>指令作为class的值</td>
+      <td>&lt;div class='wis-demo'&gt;&lt;/div&gt;</td>
+    </tr>
+    <tr>
+      <td>M</td>
+      <td>指令作为注释</td>
+      <td>&lt;!- directive:wis-demo -&gt;</td>
+    </tr>
+  </table>
+  <p>注意：</p>
+  <p>（1）、推荐使用标签和属性的方式使用指令</p>
+  <p>（2）、当需要创建带有自己的模板的指令时，使用标签名称的方式创建指令</p>
+  <p>（3）、当需要为已有的HTML标签增加功能时，使用属性的方式创建指令</p>
+  <p></p>
+  <p>2.priority:Number</p>
+  <p>priority是指令执行优先级。若在单个DOM上有多个指令，则优先级高的先执行；</p>
+  <p>设置指令的优先级算是不常用的</p>
+  <p>譬如：</p>
+  <p>&lt;wis-demo wis-demo1=''&gt;&lt;/wis-demo&gt;</p>
+  <p>当wis-demo指令和wis-demo1在同一级,需要指定两个指令的执行顺序,就设置priority的值,值越大优先级越高</p>
+  <p></p>
+  <p>3、template: String or Function</p>
+  <p>(1) 字符串</p>
+  <p>template是指令链接DOM模板</p>
+  <pre>
+    <code class="javascript">
+      (function () {
+      'use strict';
+      angular
+        .module('app.device')
+        .directive('wisDemo', wisDemoDirective);
+
+      function wisDemoDirective() {
+          return {
+              restrict:'E',
+              template:'&lt;div&gt;hello world&lt;/div&gt;'
+        };
+      }
+    })();
+    </code>
+  </pre>
+  <p></p>
+  <p>(2),函数</p>
+  <p>Function一个函数，可接受两个参数tElement和tAttrs。其中tElement是指使用此指令的元素，而tAttrs则实例的属性，它是一个由元素上所有的属性组成的集合（对象）形如：</p>
+  <pre>
+    <code class="javascript">
+      (function () {
+      'use strict';
+      angular
+          .module('app.device')
+          .directive('wisDemo', wisDemoDirective);
+
+      function wisDemoDirective() {
+          return {
+              restrict:'E',
+              template:function(tElement,tAttrs){
+                  var html = '';
+                  html += '&lt;div&gt;'+tAttrs.name+'&lt;/div&gt;';
+                  return html;
+              }
+          };
+      }
+    })();
+    </code>
+  </pre>
+  <p></p>
+  <p>4、emplateUrl: String</p>
+  <p>templateUrl是指定要载入模板的url。</p>
+  <pre>
+    <code class="javascript">
+      (function () {
+      'use strict';
+      angular
+          .module('app.device')
+          .directive('wisDemo', wisDemoDirective);
+
+      function wisDemoDirective() {
+          return {
+              restrict:'E',
+              templateUrl:'demo.html'
+          };
+      }
+    })();
+    </code>
+  </pre>
+  <p>注意：</p>
+  <p>template 和 templateUrl 不能同时使用</p>
+  <p></p>
+  <p>5、replace: Boolean</p>
+  <p>replace是指令链接模板是否替换原有元素标签</p>
+  <p>指令中的代码：</p>
+  <pre>
+    <code class="javascript">
+      (function () {
+      'use strict';
+      angular
+          .module('app.device')
+          .directive('wisDemo', wisDemoDirective);
+
+      function wisDemoDirective() {
+          return {
+              restrict:'EA',
+              template:'&lt;p&gt;hello&lt;/p&gt;',
+              replace:true
+          };
+      }
+    })();
+    </code>
+  </pre>
+  <p>使用指令的代码：</p>
+  <pre>
+    <code class="javascript">
+      &lt;div&gt;
+          &lt;div wis-mode&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    </code>
+  </pre>
+  <p>指令编译后的代码</p>
+  <pre>
+    <code class="javascript">
+      &lt;div&gt;
+          &lt;p&gt;hello&lt;/p&gt;
+      &lt;/div&gt;
+    </code>
+  </pre>
+  <p>如果replace:false,则</p>
+  <pre>
+    <code class="javascript">
+      &lt;div&gt;
+          &lt;div&gt;
+              &lt;p&gt;hello&lt;/p&gt;
+          &lt;/div&gt;
+      &lt;/div&gt;
+    </code>
+  </pre>
+  <p>注意：</p>
+  <p>如果使用replace:true时，要替换的模板只能有一层盒模型，如果有多个就会报错,如：</p>
+  <pre>
+    <code class="javascript">
+      (function () {
+      'use strict';
+      angular
+          .module('app.device')
+          .directive('wisDemo', wisDemoDirective);
+
+      function wisDemoDirective() {
+          return {
+              restrict:'EA',
+              template:'&lt;p&gt;hello&lt;/p&gt;&lt;div&gt;world&lt;/div&gt;',
+              replace:true
+          };
+      }
+    })();
+    </code>
+  </pre>
+  <p></p>
+  <p>6、transclude: Boolean</p>
+  <p>transclude是移动一个标识符的原始字节带到一个新模块的位置。当你开启transclude后，你就可以使用ng-transclude来指明了应该在什么地方放置transcluded内容。</p>
+  <p>如要把指令的内容放到指令模板的合适位置：</p>
+  <pre>
+    <code class="javascript">
+      &lt;wis-demo&gt;
+          &lt;p&gt;hello world&lt;/p&gt;
+      &lt;/wis-demo&gt;
+    </code>
+  </pre>
+  <pre>
+    <code class="javascript">
+      (function () {
+      'use strict';
+      angular
+          .module('app.device')
+          .directive('wisDemo', wisDemoDirective);
+
+      function wisDemoDirective() {
+          return {
+              restrict:'EA',
+              template:'&lt;div&gt;&lt;div ng-transclude&gt;&lt;/div&gt;&lt;/div&gt;',
+              replace:true,
+              ng-transclude:true
+          };
+      }
+    })();
+    </code>
+  </pre>
+  <p>则指令的模板变为：</p>
+  <pre>
+    <code class="javascript">
+      template:'&lt;div&gt;&lt;p&gt;hello world&lt;/p&gt;&lt;/div&gt;'
+    </code>
+  </pre>
+  <p>这只是transclude的简单用法，如要把指令包含的多个内容嵌套到模板中的合适位置，则要用到后面compile函数里面的transclude参数，或者在控制器中使用$transclude服务</p>
+  <p></p>
+  <p>7、link：Function && compile：Function</p>
+  <p>link通过代码修改目标DOM元素的实例，添加事件监听，建立数据绑定。compile函数用来对模板自身进行转换，而link函数负责在模型和视图之间进行动态关联；compile函数仅仅在编译阶段运行一次，而对于指令的每个实例，link函数都会执行一次；compile可以返回preLink和postLink函数，而link函数只会返回postLink函数，如果需要修改DOM结构，应该在postLink中来做这件事情，而如果在preLink中做这件事情会导致错误；大多数时候我们只要编写link函数即可</p>
+  <p>详细了解link和compile的工作流程点<a href="http://www.cnblogs.com/wancy86/p/compile.html"> 这里 </a></p>
+  <p>link函数有四个参数分别为：</p>
+  <p>（1）scope，与指令元素相关联的作用域</p>
+  <p>（2）element，当前指令对应的 元素</p>
+  <p>（3）attrs，由当前元素的属性组成的对象</p>
+  <p>（4）supermanCtrl，若指令中定义有require选项，则会有supermanCtrl参数，代表控制器或者所依赖的指令的控制器。</p>
+  <pre>
+    <code class="javascript">
+      (function () {
+      'use strict';
+      angular
+          .module('app.device')
+          .directive('wisDemo', wisDemoDirective);
+
+      function wisDemoDirective() {
+          return {
+              restrict:'EA',
+              template:'&lt;div&gt;hello world&lt;/div&gt;',
+              link:function(scope,element,attrs,supermanCtrl){
+                  console.log(element);
+                  element.bind("mouseenter",function(){
+                  console.log("鼠标进入...");
+                  });
+                  element.bind("mouseout",function(){
+                  console.log("鼠标滑出...");
+                  });
+              }
+          }
+      };
+    })();
+    </code>
+  </pre>
+  <p>compile函数有两个参数分别为：</p>
+  <p>（1）element，当前指令对应的 元素</p>
+  <p>（2）attrs，由当前元素的属性组成的对象</p>
+  <pre>
+    <code class="javascript">
+      (function () {
+      'use strict';
+      angular
+          .module('app.device')
+          .directive('wisDemo', wisDemoDirective);
+
+      function wisDemoDirective() {
+          return {
+              restrict:'EA',
+              template:'&lt;div&gt;hello world&lt;/div&gt;',
+              compile:function(element,attrs){
+                //TODO..
+              }
+          }
+      };
+    })();
+    </code>
+  </pre>
+  <p></p>
+  <p>8.controller和require</p>
+  <p>(1)controller:string || Function</p>
+  <p>controller创建一个控制器通过标识符公开通信API。给指令暴露出一组public方法，给外部调用的。</p>
+  <p>1)，字符串</p>
+  <p>若是为字符串，则将字符串当做是控制器的名字，来查找注册在应用中的控制器的构造函数</p>
+  <pre>
+    <code class="javascript">
+      (function () {
+      'use strict';
+      angular
+          .module('app.device')
+          .directive('wisDemo', wisDemoDirective)
+          .controller('WisDemoController',WisDemoController);
+
+      function wisDemoDirective() {
+          return {
+              restrict:'EA',
+              template:'&lt;div&gt;&lt;/div&gt;',
+              controller:'WisDemoController'
+          };
+      }
+
+      function WisDemoController($socpe){ //注入服务
+        //TODO...
+      }
+    })();
+    </code>
+  </pre>
+  <p>2)，匿名函数</p>
+  <p>也可以直接在指令内部的定义为匿名函数，同样我们可以再这里注入任何服务（$log,$timeout等等）</p>
+  <pre>
+    <code class="javascript">
+      (function () {
+      'use strict';
+      angular
+          .module('app.device')
+          .directive('wisDemo', wisDemoDirective);
+
+      function wisDemoDirective() {
+          return {
+              restrict:'EA',
+              template:'&lt;div&gt;&lt;/div&gt;',
+              controller:function($scope){ //注入服务
+              //TODO...
+              }
+          };
+      }
+    })();
+    </code>
+  </pre>
+  <p>(2),require</p>
+  <p>require当前标识符需要另一个标识符提供正确的函数功能。require的值可以是字符串或者数组。字符串代表另一个指令的名字，它将会作为link函数的第四个参数。controller的用法分为两种情形，一种是require自定义的controller，由于自定义controller中的属性方法都由自己编写，使用起来比较简单；另一种方法则是require AngularJS内建的指令，其中大部分时间需要require的都是ngModel这个指令。</p>
+  <p>主要用在指令嵌套，子指令调用父指令控制器里的数据</p>
+  <p></p>
+  <p>9、scope boolean || {}</p>
+  <p> scope:true  全部继承父控制器的属性</p>
+  <p> scope:false  完全不继承父控制器的属性</p>
+  <p> scope:{} 有三种继承策略。</p>
+  <p>(1)使用@（@attr）来进行单向文本（字符串）绑定 如：scope:{str:@str}</p>
+  <pre>
+    <code class="javascript">
+        &lt;wis-demo str='hello'&gt;&lt;/wis-demo&gt;
+    </code>
+  </pre>
+  <p>(2)使用=（=attr）来进行数据双向绑定 如：scope:{data:=ngModel}</p>
+  <pre>
+    <code class="javascript">
+        &lt;wis-demo ng-model='data'&gt;&lt;/wis-demo&gt;
+    </code>
+  </pre>
+  <p>(3)使用&来调用父作用域中的函数 如scope:{reFn:&ngClick}</p>
+  <pre>
+    <code class="javascript">
+        &lt;wis-demo ng-click='buttonClick()'&gt;&lt;/wis-demo&gt;
+    </code>
+  </pre>
+</div>

@@ -1,0 +1,222 @@
+<div id="fuse-demo" layout="column" layout-align="center center">
+  <h1>演示示例</h1>
+  <img src="assets/images/main/demo/page-construction.jpg">
+  <p>fuse主要由三大模块组成，分别为toolbar、navigation、main组成，功能开发过程中，一般都是在main模块中添加完善子模块。</p>
+  <p>添加子模块的基本步骤为</p>
+  <p>step1:</p>
+  <p>main.config.js配置一级菜单到navigation中，若子模块所属一级菜单已存在则不需要重复添加，子模块菜单配置在模块内容中；</p>
+  <p>step2:</p>
+  <p>main目录下建立一个子模块目录，完善模块内容；</p>
+  <p>step3:</p>
+  <p>在main.module.js添加子模块到依赖中。</p>
+  <p>以下是一个新建设备信息的子模块的示范</p>
+  <p>在src/main/views目录下新建子模块device目录，
+    src/main/views/device目录下创建device.controller.js、device.module.js、device.html文件,src/app/main/service下创建模块服务。
+  </p>
+  <p>基本内容如下所示</p>
+  <pre>
+    <code class="javascript">
+      //目标文件路径：src/main/main.config.js
+      (function () {
+        'use strict';
+        angular
+        .module('app.main')
+        .config(config);
+        /** @ngInject */
+        function config(msNavigationServiceProvider, msApiProvider) {
+          // Navigation 添加子模块所属一级菜单
+          msNavigationServiceProvider.saveItem('base', {
+            title: '基础信息',
+            icon: 'icon-basic-data',
+            weight: 1
+          });
+        }
+      })();
+    </code>
+  </pre>
+  <pre>
+    <code class="javascript">
+      //目标文件路径：src/main/views/device/device.module.js
+      (function () {
+        'use strict';
+        angular
+        //声明子模块
+        .module('app.device', [])
+        .config(config);
+        /** @ngInject */
+        function config($stateProvider, msNavigationServiceProvider) {
+          // State 子模块路由配置
+          $stateProvider.state('app.device', {
+            url: '/device',
+            views: {
+              'content@app': {
+                templateUrl: 'app/main/views/device/device.html',
+                controller: 'DeviceController as vm'
+              }
+            }
+          });
+          // Navigation 添加子模块菜单到所属一级菜单中
+          msNavigationServiceProvider.saveItem('base.device', {
+            title: '设备信息',
+            state: 'app.device'
+          });
+        }
+      })();
+      </code>
+  </pre>
+  <pre>
+    <code class="javascript">
+      //目标文件路径：src/main/views/device/device.controller.js
+      (function(){
+        'use strict';
+        angular
+          .module('app.device')
+          .controller('DeviceController',DeviceController);
+        function DeviceController(){
+          //TO DO
+        }
+      })();
+    </code>
+  </pre>
+  <pre>
+    <code class="javascript">
+      //目标文件路径：src/main/main.module.js
+      (function () {
+          'use strict';
+          angular.module('app.main', [
+              //添加子模块到main模块依赖
+              'app.device'
+          ]);
+      })();
+    </code>
+  </pre>
+  <pre>
+    <code class="javascript">
+      //目标文件路径：src/main/main.config.js
+      (function () {
+          'use strict';
+          angular
+              .module('app.main')
+              .config(config);
+          /** @ngInject */
+          function config(msNavigationServiceProvider, msApiProvider) {
+              // Navigation
+              msNavigationServiceProvider.saveItem('base', {
+                  title: '基础信息',
+                  icon: 'icon-basic-data',
+                  weight: 1
+              });
+              //对于RESULTful风格接口
+              //(例：‘http://demo-wisdombus/common/dev/{id}’)使用msApiProvider配置,
+              //‘http://demo-wisdombus’为BaseUrl
+              msApiProvider.register('device', [
+                  'common/dev/:id',
+                  {
+                      id: '@uuid'
+                  }
+              ]);
+          }
+      })();
+    </code>
+  </pre>
+  <pre>
+    <code class="javascript">
+      //目标文件路径：src/main/service/device.service.js
+      (function () {
+          'use strict';
+          angular
+              .module('app.main')
+              .factory('DeviceService', DeviceService);
+          /** @ngInject */
+          function DeviceService(msApi) {
+              //非RESULTful风格接口
+              function getDemo() {
+                  var deferred = $q.defer();
+                  $http.get(msApi.getBaseUrl() + 'common/dev/demo').then(function (response) {
+                      deferred.resolve(response.data);
+                  });
+                  return deferred.promise;
+              }
+              //RESULTful风格接口
+              function query(params) {
+                  return msApi.resolve('device@get', params);
+              }
+              function get(uuid) {
+                  return msApi.resolve('device@get', {uuid: uuid});
+              }
+              function add(entry) {
+                  return msApi.resolve('device@save', {}, entry);
+              }
+              function update(entry) {
+                  return msApi.resolve('device@update', {}, entry);
+              }
+              function remove(uuid) {
+                  return msApi.resolve('device@remove', {}, {uuid: uuid});
+              }
+              return {
+                  getDemo: getDemo,
+                  query: query,
+                  get: get,
+                  add: add,
+                  update: update,
+                  remove: remove
+              };
+          }
+      })();
+    </code>
+  </pre>
+  <pre>
+    <code class="javascript">
+      //目标文件路径：src/main/views/device/device.module.js
+      (function () {
+        'use strict';
+        angular
+        //声明子模块
+        .module('app.device', [])
+        .config(config);
+        /** @ngInject */
+        function config($stateProvider, msNavigationServiceProvider) {
+          // State 子模块路由配置
+          $stateProvider.state('app.device', {
+            url: '/device',
+            views: {
+              'content@app': {
+                templateUrl: 'app/main/views/device/device.html',
+                controller: 'DeviceController as vm'
+              }
+            },
+            //在路由中使用DeviceService查询数据
+            resolve: {
+              Device: function (DeviceService){
+                return DeviceService.query();
+              }
+            }
+          });
+          // Navigation 添加子模块菜单到所属一级菜单中
+          msNavigationServiceProvider.saveItem('base.device', {
+            title: '设备信息',
+            state: 'app.device'
+          });
+        }
+      })();
+      </code>
+  </pre>
+  <pre>
+    <code class="javascript">
+      //目标文件路径：src/main/views/device/device.controller.js
+      (function(){
+        'use strict';
+        angular
+          .module('app.device')
+          .controller('DeviceController',DeviceController);
+        // controller中注入路由中查询到的数据对象,并使用。
+        function DeviceController(Device){
+          console.log(Device);
+        }
+      })();
+    </code>
+  </pre>
+  <p>完成后重新部署项目，添加完成。</p>
+  <br>
+  <br>
+</div>

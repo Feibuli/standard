@@ -1,0 +1,53 @@
+<div id="fuse-dev-flow" layout="column" layout-align="center center">
+  <h1>开发说明</h1>
+
+  指令组件存放在src/app/main/directive中
+  <br>
+  <br>
+  过滤器存放在src/app/main/filter中
+  <br>
+  <br>
+  服务存放在src/app/main/service中
+  <br>
+  <br>
+  公共使用或者在多个模块中使用到的工具类函数需提取到src/app/main/service/Util.service中，然后再在自己的模块中注入Util使用
+  <br>
+  <br>
+  开发的视图模块存放在src/app/main/views中
+  <br>
+  <br>
+  image、svg、eot、ttf、woff等资源存放在src/assets中，其中用于字体内容(svg、eot、ttf、woff)的存放在src/assets/fonts中
+  <br>
+  <br>
+  图片存放于src/assets/image(具体路径根据功能和模块确定，例:只有在main模块下独立使用的图片其存放路径为src/assets/image/main)
+  <br>
+  <br>
+  <div layout="column" layout-align="center center" flex class="example-image">
+    <div layout="column" layout-gt-xs="row" flex>
+      <div layout="column">
+        <img src="/assets/images/main/devflow/directory-structure.png">
+        <span layout="column" layout-align="center center">目录结构</span>
+      </div>
+      <div layout="column">
+        <img src="/assets/images/main/devflow/main.png">
+        <span layout="column" layout-align="center center">main目录</span>
+      </div>
+    </div>
+    <div layout="column" layout-gt-xs="row" flex>
+      <div layout="column">
+        <img src="/assets/images/main/devflow/views.png">
+        <span layout="column" layout-align="center center">views</span>
+      </div>
+      <div layout="column">
+        <img src="/assets/images/main/devflow/directive.png">
+        <span layout="column" layout-align="center center">指令组件等</span>
+      </div>
+    </div>
+    <div layout="column" layout-gt-xs="row" flex>
+      <div layout="column">
+        <img src="/assets/images/main/devflow/filter.png">
+        <span layout="column" layout-align="center center">过滤器及服务</span>
+      </div>
+    </div>
+  </div>
+</div>

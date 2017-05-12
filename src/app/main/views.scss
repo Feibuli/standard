@@ -1,0 +1,156 @@
+html, body, button, select, textarea, input {
+  font-family: "Microsoft YaHei UI";
+}
+
+@mixin gaussian-gradient($color1,$color2) {
+  background: -webkit-linear-gradient($color1, $color2);
+  background: -o-linear-gradient($color1, $color2);
+  background: -moz-linear-gradient($color1, $color2);
+  background: linear-gradient(to $color1, $color2);
+}
+
+.base-box-shadow {
+  box-shadow: 0px 4px 5px -2px rgba(0, 0, 0, 0.2), 0px 7px 10px 1px rgba(0, 0, 0, 0.14), 0px 2px 16px 1px rgba(0, 0, 0, 0.12);
+}
+
+#main {
+  #content {
+    color: #000;
+    margin: 10px;
+    padding: 0 10px;
+    @include gaussian-gradient(#fff, #ddd);
+    @extend .base-box-shadow;
+    a {
+      text-decoration: none;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+    $denominateFileWidth: 542px;
+    .denominate-file {
+      width: $denominateFileWidth;
+      height: 194px;
+      background-color: rgba(255, 255, 255, 0.8);
+      @extend .base-box-shadow;
+      $fileBorder: 1px rgba(0, 0, 0, 0.12) solid;
+      //border: $fileBorder;
+      tr {
+        td {
+          border-top: $fileBorder;
+          padding: 10px 20px;
+        }
+      }
+      tr:nth-of-type(1) {
+        td {
+          border-top: 0;
+        }
+      }
+    }
+    #fuse-demo {
+      $fuseDemoWidth: 750px;
+      > pre {
+        @extend .base-box-shadow;
+        width: $fuseDemoWidth;
+        background: #F0F0F0;
+        > code {
+          background: #fff;
+        }
+      }
+      > p {
+        width: $fuseDemoWidth;
+      }
+    }
+    #fuse-denominate {
+      > p {
+        width: 540px;
+      }
+    }
+    #fuse-home {
+      > p {
+        width: 612px;
+      }
+    }
+    #fuse-module-name {
+      > p {
+        width: $denominateFileWidth;
+      }
+    }
+    #fuse-dev-flow {
+      .example-image {
+        width: 780px;
+        > div {
+          justify-content: space-between;
+          align-items: flex-end;
+          width: inherit;
+          > div {
+            align-content: space-between;
+            > span {
+              padding: 10px;
+            }
+          }
+        }
+      }
+      margin-bottom: 30px;
+    }
+    #fuse-dev-step, #fuse-directory {
+      > p {
+        width: 750px;
+      }
+    }
+
+  }
+}
+
+/* 滚动条 */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-button {
+  height: 0;
+  width: 0;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #bdbdbd;
+  border-radius: 8px;
+}
+
+.nav-list::-webkit-scrollbar {
+  width: 0;
+}
+
+.nav-list::-webkit-scrollbar-thumb {
+  background-color: #bdbdbd;
+  filter: alpha(opacity=50);
+  -moz-opacity: 0.5;
+  opacity: 0.5;
+}
+
+.nav-list::-webkit-scrollbar-thumb:hover,
+.stream .trip-wrapper::-webkit-scrollbar-thumb:active {
+  background-color: #afafaf;
+  filter: alpha(opacity=50);
+  -moz-opacity: 0.5;
+  opacity: 0.5;
+}
+
+::-webkit-scrollbar-thumb:hover,
+.stream .trip-wrapper::-webkit-scrollbar-thumb:active {
+  background-color: #bdbdbd;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+  border-width: 8px 1px 1px;
+  padding: 0 0 0 100px;
+  box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1), inset -1px 0 0 rgba(0, 0, 0, 0.07);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}

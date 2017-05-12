@@ -1,0 +1,32 @@
+<div layout="row" layout-align="start center">
+  <div layout="row" layout-align="start center" flex>
+    <md-button id="navigation-toggle" class="md-icon-button" ng-click="vm.toggleSidenav('navigation')"
+               hide-gt-sm aria-label="Toggle navigation" translate
+               translate-attr-aria-label="TOOLBAR.TOGGLE_NAVIGATION">
+      <md-icon md-font-icon="icon-menu" class="icon"></md-icon>
+    </md-button>
+
+    <ms-shortcuts></ms-shortcuts>
+
+    <div class="toolbar-separator"></div>
+  </div>
+
+  <div layout="row" layout-align="start center">
+    <md-progress-circular id="toolbar-progress" ng-disabled="!$root.loadingProgress" class="md-accent" md-diameter="32">
+    </md-progress-circular>
+    <md-menu-bar>
+      <md-button class="md-icon-button" ng-click="" aria-label="fullScreen">
+        <md-icon md-font-icon="icon-crop-free"></md-icon>
+      </md-button>
+    </md-menu-bar>
+
+    <div class="toolbar-separator"></div>
+
+    <ms-search-bar on-search="vm.search(query)" on-result-click="vm.searchResultClick(item)"
+                   debounce="300"></ms-search-bar>
+
+    <div class="toolbar-separator"></div>
+
+    <div class="toolbar-separator"></div>
+  </div>
+</div>

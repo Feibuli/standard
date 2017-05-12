@@ -1,0 +1,14 @@
+#directive-demo {
+  $fuseDemoWidth: 750px;
+  > pre {
+    @extend .base-box-shadow;
+    width: $fuseDemoWidth;
+    background: #F0F0F0;
+    > code {
+      background: #fff;
+    }
+  }
+  > p {
+    width: $fuseDemoWidth;
+  }
+}

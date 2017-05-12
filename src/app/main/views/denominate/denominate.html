@@ -1,0 +1,54 @@
+<div id="fuse-denominate" layout="column" layout-align="center center">
+  <h1>文件命名规范</h1>
+  <p>注：所有文件夹与文件命名一律小写，无驼峰，不能出现拼音的命名痕迹，js中，无特殊情况，</p>
+
+  <p>变量名及函数名一律遵守驼峰命名，scss中，非变量名不能使用驼峰，模块内的dom的最外层</p>
+
+  <p>需根据模块添加一个id,同样，模块内的scss最外层为该模块id，公共样式写入views中。</p>
+
+  <p>文件夹命名</p>
+
+  <p>仅包含html、image、font、svg等资源的，单词之间可用“-”隔开</p>
+
+  <p>其他文件夹单词之间无需区分，不能出现特殊字符，只能由英文字母和数字组成</p>
+
+  <p>文件命名</p>
+
+  <table class="denominate-file" cellpadding="0" cellspacing="0">
+    <tr>
+      <td>文件类型</td>
+      <td>命名规则</td>
+      <td>示例</td>
+    </tr>
+    <tr>
+      <td>js</td>
+      <td>xxxx.xxxx.js(name.type.js)</td>
+      <td>main.controller.js</td>
+    </tr>
+    <tr>
+      <td>scss</td>
+      <td>xxxx.scss(name.scss)</td>
+      <td>main.scss</td>
+    </tr>
+    <tr>
+      <td>html</td>
+      <td>xxxx.html(name.html)</td>
+      <td>main.html</td>
+    </tr>
+    <tr>
+      <td>other</td>
+      <td>xxxx.other</td>
+      <td>main-bg.png、favicon.ico</td>
+    </tr>
+  </table>
+  <p>示例：device子模块的目录结构及文件命名</p>
+  <p>Controller：src/main/views/device/device.controller.js</p>
+  <p>Service：src/main/service/device.service.js</p>
+  <p>Directive(子模块下使用的业务组件，包含了controller、directive、template、sass)：</p>
+  <p> &nbsp;&nbsp;&nbsp;&nbsp;controller:src/main/directive/wisdevice.controller.js</p>
+  <p> &nbsp;&nbsp;&nbsp;&nbsp;directive:src/main/directive/wisdevice.directive.js</p>
+  <p> &nbsp;&nbsp;&nbsp;&nbsp;template:src/main/directive/wisdevice.html</p>
+  <p> &nbsp;&nbsp;&nbsp;&nbsp;sass:src/main/directive/wisdevice.scss</p>
+  <p>Template：src/main/service/device.html</p>
+  <p>Sass：device.scss</p>
+</div>
